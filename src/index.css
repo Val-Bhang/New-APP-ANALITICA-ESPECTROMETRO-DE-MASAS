@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vanilla: #FAF7EE;
+  --color-vanilla-50: #FFFDF9;
+  --color-vanilla-100: #F7F3E7;
+  --color-vanilla-200: #EFE8D3;
+  --color-vanilla-300: #E2D7BB;
+
+  --color-blush: #EFC4BF;
+  --color-blush-50: #FBF0EF;
+  --color-blush-100: #F6DCD9;
+  --color-blush-200: #EFC4BF;
+  --color-blush-400: #D89F99;
+
+  --color-rosewood: #8E3742;
+  --color-rosewood-50: #FAEEEE;
+  --color-rosewood-100: #F3D4D6;
+  --color-rosewood-600: #8E3742;
+  --color-rosewood-700: #742B34;
+  --color-rosewood-800: #571F26;
+
+  --color-sage: #7C957D;
+  --color-sage-50: #F2F6F2;
+  --color-sage-100: #DFE8DF;
+  --color-sage-500: #7C957D;
+  --color-sage-600: #657D66;
+  --color-sage-700: #4F6450;
+
+  --color-misty: #A9C2D2;
+  --color-misty-50: #F1F6F9;
+  --color-misty-100: #E0EBF2;
+  --color-misty-400: #A9C2D2;
+  --color-misty-600: #7696AA;
+
+  --color-lagoon: #122630;
+  --color-lagoon-700: #1C3947;
+  --color-lagoon-800: #122630;
+  --color-lagoon-900: #0C1A22;
+  --color-lagoon-950: #071116;
+
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #FAF7EE;
+  color: #122630;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Custom scrollbar for sleek scientific aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF7EE;
+}
+::-webkit-scrollbar-thumb {
+  background: #E2D7BB;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D89F99;
+}
