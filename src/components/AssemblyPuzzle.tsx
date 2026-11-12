@@ -19,15 +19,16 @@ import {
   Award,
   Layers,
   Eye,
-  Info
+  Info,
+  Lightbulb
 } from 'lucide-react';
 
 interface PuzzleSlot {
   index: number;
   title: string;
   expectedPartId: string;
-  category: string;
-  description: string;
+  clueLabel: string;
+  clue: string;
 }
 
 interface ComponentItem {
@@ -45,7 +46,7 @@ interface ComponentItem {
 const ALL_PUZZLE_PIECES: ComponentItem[] = [
   {
     id: 'inlet',
-    name: '1. Inyector Capilar & Vaporizador',
+    name: 'Inyector Capilar & Vaporizador',
     category: 'Muestra',
     manufacturerRef: 'Agilent 8890 GC Inlet & Shimadzu AOC',
     description: 'Vaporiza la muestra líquida/sólida e inyecta un flujo constante de gas neutro en régimen molecular libre.',
@@ -54,8 +55,8 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'ionizer',
-    name: '2. Cámara de Ionización HES (70 eV)',
-    category: 'Ionización',
+    name: 'Cámara de Ionización HES (70 eV)',
+    category: 'Fuente',
     manufacturerRef: 'Agilent High Efficiency Source & Shimadzu DUIS',
     description: 'Bombardea moléculas con electrones de 70 eV para crear cationes manipulables [M]+.',
     imageSrc: IMAGES.ionsourceAgilentHesDetail,
@@ -63,8 +64,8 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'accelerator',
-    name: '3. Acelerador y Colimador de Haz',
-    category: 'Aceleración',
+    name: 'Acelerador y Colimador de Haz',
+    category: 'Óptica',
     manufacturerRef: 'Óptica Einzel de Bruker & Overdrive Shimadzu',
     description: 'Aplica alta tensión electrostática (kV) para dar energía cinética uniforme a los iones.',
     imageSrc: IMAGES.puzzleAcceleratorPlates,
@@ -72,7 +73,7 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'analyzer',
-    name: '4. Analizador de Sector Magnético',
+    name: 'Analizador de Sector Magnético',
     category: 'Separación',
     manufacturerRef: 'Electroimán de precisión Bruker & Cuadrupolo Agilent',
     description: 'Aplica fuerza de Lorentz transversal para separar físicamente los iones según m/z.',
@@ -81,8 +82,8 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'detector',
-    name: '5. Multiplicador de Electrones Secundario',
-    category: 'Detección',
+    name: 'Multiplicador de Electrones Secundario',
+    category: 'Registro',
     manufacturerRef: 'Detector Triple-Axis TAD Agilent & Shimadzu',
     description: 'Convierte el impacto iónico individual en una cascada de 10⁶ electrones amplificados.',
     imageSrc: IMAGES.turbopumpDetectorAssembly,
@@ -90,8 +91,8 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'vacuum',
-    name: '6. Bombas Turbomoleculares de Ultra Vacío',
-    category: 'Vacío',
+    name: 'Bombas Turbomoleculares de Ultra Vacío',
+    category: 'Fluídica',
     manufacturerRef: 'Rotores de titanio Pfeiffer 60,000 RPM & Shimadzu',
     description: 'Mantiene presiones de 10⁻⁶ Torr para garantizar libre camino medio superior al tubo.',
     imageSrc: IMAGES.turbopumpDetectorAssembly,
@@ -99,7 +100,7 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   },
   {
     id: 'datasystem',
-    name: '7. Estación de Cómputo & Espectro',
+    name: 'Estación de Cómputo & Espectro',
     category: 'Datos',
     manufacturerRef: 'Agilent MassHunter & Shimadzu LabSolutions',
     description: 'Digitaliza pulsos en tiempo real y genera el gráfico normalizado de m/z vs Abundancia.',
@@ -110,7 +111,7 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   {
     id: 'peristaltic_pump',
     name: 'Bomba Peristáltica de Acuario',
-    category: 'Distractor',
+    category: 'Fluídica',
     manufacturerRef: 'Equipo no analítico para agua a 1 atm',
     description: 'Bomba ordinaria para líquidos a presión atmosférica.',
     imageSrc: IMAGES.puzzlePeristalticPump,
@@ -121,7 +122,7 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
   {
     id: 'quadrupole_alt',
     name: 'Filtro Cuadrupolar Hiperbólico en Oro',
-    category: 'Separación Alt',
+    category: 'Separación',
     manufacturerRef: 'Tecnología Agilent / Shimadzu UFms',
     description: 'Alternativa de filtrado de masas por radiofrecuencia RF/DC sin imán curvo.',
     imageSrc: IMAGES.quadrupoleRodsShimadzuBruker,
@@ -130,13 +131,55 @@ const ALL_PUZZLE_PIECES: ComponentItem[] = [
 ];
 
 const PUZZLE_SLOTS: PuzzleSlot[] = [
-  { index: 0, title: 'Etapa 1: Inyección', expectedPartId: 'inlet', category: 'Entrada', description: 'Vaporización y entrada molecular' },
-  { index: 1, title: 'Etapa 2: Carga Eléctrica', expectedPartId: 'ionizer', category: 'Ionización', description: 'Generación de cationes moleculares' },
-  { index: 2, title: 'Etapa 3: Aceleración', expectedPartId: 'accelerator', category: 'Óptica', description: 'Equipartición de energía cinética' },
-  { index: 3, title: 'Etapa 4: Desviación balística', expectedPartId: 'analyzer', category: 'Separador', description: 'Fuerza de Lorentz o RF por m/z' },
-  { index: 4, title: 'Etapa 5: Amplificación', expectedPartId: 'detector', category: 'Detector', description: 'Cascada de dínodos y conteo' },
-  { index: 5, title: 'Soporte: Ultra Alto Vacío', expectedPartId: 'vacuum', category: 'Vacío', description: 'Eliminación total de choques de aire' },
-  { index: 6, title: 'Salida: Digitalización', expectedPartId: 'datasystem', category: 'Cómputo', description: 'Generación del espectro químico' },
+  {
+    index: 0,
+    title: 'Ranura 1',
+    expectedPartId: 'inlet',
+    clueLabel: 'Pista 1',
+    clue: 'Recibe la sustancia externa y la pasa a fase gaseosa sin romper sus enlaces.',
+  },
+  {
+    index: 1,
+    title: 'Ranura 2',
+    expectedPartId: 'ionizer',
+    clueLabel: 'Pista 2',
+    clue: 'Las moléculas neutras no sienten campos eléctricos; aquí pierden un electrón para adquirir carga.',
+  },
+  {
+    index: 2,
+    title: 'Ranura 3',
+    expectedPartId: 'accelerator',
+    clueLabel: 'Pista 3',
+    clue: 'Iguala la energía cinética de todas las especies cargadas mediante alto voltaje antes de separarlas.',
+  },
+  {
+    index: 3,
+    title: 'Ranura 4',
+    expectedPartId: 'analyzer',
+    clueLabel: 'Pista 4',
+    clue: 'Desvía o filtra las trayectorias en vuelo para distinguir los fragmentos según su relación m/z.',
+  },
+  {
+    index: 4,
+    title: 'Ranura 5',
+    expectedPartId: 'detector',
+    clueLabel: 'Pista 5',
+    clue: 'Cada impacto al final del recorrido genera una carga diminuta que debe amplificarse en cascada.',
+  },
+  {
+    index: 5,
+    title: 'Ranura 6 (Soporte)',
+    expectedPartId: 'vacuum',
+    clueLabel: 'Pista 6 · Soporte',
+    clue: 'Evita que las partículas del haz choquen contra moléculas de aire durante todo el trayecto interno.',
+  },
+  {
+    index: 6,
+    title: 'Ranura 7 (Salida)',
+    expectedPartId: 'datasystem',
+    clueLabel: 'Pista 7 · Salida',
+    clue: 'Traduce los pulsos eléctricos registrados en el gráfico final de abundancia frente a m/z.',
+  },
 ];
 
 interface AssemblyPuzzleProps {
@@ -340,7 +383,7 @@ export const AssemblyPuzzle: React.FC<AssemblyPuzzleProps> = ({ onOpenSimulator 
                 {/* Slot index and title */}
                 <div className="flex items-center justify-between pb-1 z-10">
                   <span className="text-[10px] font-mono text-[#8E3742] font-bold">
-                    Paso {slot.index + 1}
+                    {slot.title}
                   </span>
                   {placedItem && (
                     <button
@@ -353,7 +396,7 @@ export const AssemblyPuzzle: React.FC<AssemblyPuzzleProps> = ({ onOpenSimulator 
                   )}
                 </div>
 
-                <div className="my-auto py-1 z-10">
+                <div className="my-auto py-1 z-10" title={slot.clue}>
                   {placedItem ? (
                     <div className="space-y-1.5 text-center">
                       <div className="relative w-full h-20 rounded-lg overflow-hidden border border-[#E2D7BB] shadow-inner bg-[#0C1A22]">
@@ -365,16 +408,19 @@ export const AssemblyPuzzle: React.FC<AssemblyPuzzleProps> = ({ onOpenSimulator 
                         />
                       </div>
                       <h4 className="text-xs font-bold text-[#122630] leading-tight line-clamp-1">
-                        {placedItem.name.split('. ')[1] || placedItem.name}
+                        {placedItem.name}
                       </h4>
                       <p className="text-[10px] text-[#7C957D] font-mono leading-tight truncate">
                         {placedItem.manufacturerRef}
                       </p>
                     </div>
                   ) : (
-                    <div className="text-center space-y-1 text-[#1C3947]/60 py-4">
-                      <div className="text-[11px] font-bold text-[#8E3742]">{slot.title}</div>
-                      <p className="text-[10px] leading-tight px-1">{slot.description}</p>
+                    <div className="text-center space-y-1.5 text-[#1C3947]/75 py-2">
+                      <div className="text-[11px] font-bold text-[#8E3742] flex items-center justify-center gap-1">
+                        <Lightbulb className="w-3.5 h-3.5 shrink-0" />
+                        <span>{slot.clueLabel}</span>
+                      </div>
+                      <p className="text-[10.5px] leading-snug px-1 text-[#122630]/80">{slot.clue}</p>
                       {isTargeted && (
                         <div className="text-[9px] font-mono text-[#8E3742] animate-pulse font-bold mt-2">
                           Clic para colocar aquí
@@ -465,13 +511,7 @@ export const AssemblyPuzzle: React.FC<AssemblyPuzzleProps> = ({ onOpenSimulator 
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center justify-between gap-1">
                     <h4 className="text-xs font-bold leading-tight truncate">{piece.name}</h4>
-                    <span
-                      className={`text-[9px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
-                        piece.isDistractor
-                          ? 'bg-[#FAEEEE] text-[#8E3742]'
-                          : 'bg-[#F2F6F2] text-[#7C957D]'
-                      }`}
-                    >
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded shrink-0 bg-[#F2F6F2] text-[#7C957D]">
                       {piece.category}
                     </span>
                   </div>
