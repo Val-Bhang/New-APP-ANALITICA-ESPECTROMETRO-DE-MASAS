@@ -145,7 +145,7 @@ export const MassSimulator: React.FC = () => {
         }
 
         // Spawn particles based on compound's peaks
-        if (frame % 4 === 0) {
+        if (frame % 4 === 0 && particles.length < 400) {
           const totalAbundance = selectedCompound.peaks.reduce((acc, p) => {
             if (electronEnergy < 25 && !p.isMolecularIon) return acc + p.relativeAbundance * 0.1;
             return acc + p.relativeAbundance;

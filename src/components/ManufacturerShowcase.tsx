@@ -1,30 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   LEADING_MANUFACTURERS, 
   INSTRUMENT_GALLERY, 
   InstrumentGalleryItem, 
   ManufacturerTech 
 } from '../data/spectrometryData';
+import { UVVIS_MANUFACTURERS, UVVIS_GALLERY } from '../data/uvVisData';
+import { HPLC_MANUFACTURERS, HPLC_GALLERY } from '../data/hplcData';
+import { FTIR_MANUFACTURERS, FTIR_GALLERY } from '../data/ftirData';
+import { NMR_MANUFACTURERS, NMR_GALLERY } from '../data/nmrData';
+import { GC_MANUFACTURERS, GC_GALLERY } from '../data/gcData';
 import { 
   Building2, 
-  Cpu, 
   Sparkles, 
   CheckCircle2, 
   Maximize2, 
-  Layers, 
-  Zap, 
-  Compass, 
-  ChevronRight,
-  Shield,
-  Activity
+  Layers
 } from 'lucide-react';
 
-export const ManufacturerShowcase: React.FC = () => {
-  const [selectedGalleryItem, setSelectedGalleryItem] = useState<InstrumentGalleryItem>(INSTRUMENT_GALLERY[0]);
+interface ManufacturerShowcaseProps {
+  instrument?: 'ms' | 'uvvis' | 'hplc' | 'ftir' | 'nmr' | 'gc';
+}
+
+export const ManufacturerShowcase: React.FC<ManufacturerShowcaseProps> = ({ instrument = 'ms' }) => {
+  const galleryList =
+    instrument === 'uvvis'
+      ? UVVIS_GALLERY
+      : instrument === 'hplc'
+      ? HPLC_GALLERY
+      : instrument === 'ftir'
+      ? FTIR_GALLERY
+      : instrument === 'nmr'
+      ? NMR_GALLERY
+      : instrument === 'gc'
+      ? GC_GALLERY
+      : INSTRUMENT_GALLERY;
+  const manufacturerList: ManufacturerTech[] =
+    instrument === 'uvvis'
+      ? UVVIS_MANUFACTURERS
+      : instrument === 'hplc'
+      ? HPLC_MANUFACTURERS
+      : instrument === 'ftir'
+      ? FTIR_MANUFACTURERS
+      : instrument === 'nmr'
+      ? NMR_MANUFACTURERS
+      : instrument === 'gc'
+      ? GC_MANUFACTURERS
+      : LEADING_MANUFACTURERS;
+
+  const [selectedGalleryItem, setSelectedGalleryItem] = useState<InstrumentGalleryItem>(galleryList[0]);
   const [activeManufacturerId, setActiveManufacturerId] = useState<string>('agilent');
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
-  const activeManufacturer = LEADING_MANUFACTURERS.find((m) => m.id === activeManufacturerId) || LEADING_MANUFACTURERS[0];
+  useEffect(() => {
+    setSelectedGalleryItem(galleryList[0]);
+    setFullscreenImage(null);
+  }, [instrument]);
+
+  const activeManufacturer = manufacturerList.find((m) => m.id === activeManufacturerId) || manufacturerList[0];
 
   return (
     <div className="w-full space-y-8">
@@ -37,16 +70,48 @@ export const ManufacturerShowcase: React.FC = () => {
             <span>Estándares Industriales Bruker · Shimadzu · Agilent</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-[#122630] tracking-tight">
-            Modelo Real: Arquitectura Instrumental y Fabricantes
+            {instrument === 'uvvis'
+              ? 'Modelo Real UV-Vis: Arquitectura Óptica y Fabricantes'
+              : instrument === 'hplc'
+              ? 'Modelo Real HPLC / UHPLC: Ingeniería Fluídica y Fabricantes'
+              : instrument === 'ftir'
+              ? 'Modelo Real IR Medio (FTIR): Interferometría y Fabricantes'
+              : instrument === 'nmr'
+              ? 'Modelo Real RMN: Superconductividad, Sonda RF y Fabricantes'
+              : instrument === 'gc'
+              ? 'Modelo Real GC Capilar: Control Neumático, Horno y Detectores'
+              : 'Modelo Real: Arquitectura Instrumental y Fabricantes'}
           </h2>
           <p className="text-sm text-[#1C3947]/80 max-w-3xl mt-1">
-            Inspecciona el modelo real del espectrómetro mediante cortes transversales 3D, patentes de ingeniería y tecnologías de vanguardia de Bruker, Shimadzu y Agilent.
+            {instrument === 'uvvis'
+              ? 'Inspecciona el modelo real del espectrofotómetro UV-Vis mediante cortes transversales 3D, óptica Czerny-Turner y patentes fotónicas de Agilent, Shimadzu y Bruker.'
+              : instrument === 'hplc'
+              ? 'Inspecciona el modelo real del cromatógrafo líquido UHPLC hasta 1,300 bar mediante cortes transversales 3D, bombas de zafiro y celdas DAD de Agilent, Shimadzu y Bruker.'
+              : instrument === 'ftir'
+              ? 'Inspecciona el modelo real del espectrómetro FTIR mediante cortes transversales 3D, retroreflectores cúbicos RockSolid™, cristal ATR de diamante y sensores DLATGS de Bruker, Shimadzu y Agilent.'
+              : instrument === 'nmr'
+              ? 'Inspecciona el modelo real del espectrómetro RMN superconductor mediante cortes transversales 3D de criostato LHe/LN₂, sondas criogénicas CryoProbe™ y consolas digitales RF de Bruker, Agilent/Varian y Shimadzu.'
+              : instrument === 'gc'
+              ? 'Inspecciona el modelo real del cromatógrafo de gases capilar mediante cortes transversales 3D de módulos EPC/AFC, inyector Split/Splitless, horno de convección WCOT y detector FID de Agilent, Shimadzu y Bruker.'
+              : 'Inspecciona el modelo real del espectrómetro mediante cortes transversales 3D, patentes de ingeniería y tecnologías de vanguardia de Bruker, Shimadzu y Agilent.'}
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start md:self-auto text-xs font-mono text-[#8E3742]">
           <span className="w-2 h-2 rounded-full bg-[#7C957D] animate-pulse" />
-          <span>Norma ISO/IEC 17025 &amp; NIST 2026</span>
+          <span>
+            {instrument === 'uvvis'
+              ? 'Norma USP/EP & NIST 935a'
+              : instrument === 'hplc'
+              ? 'USP <621> & Ph. Eur. UHPLC'
+              : instrument === 'ftir'
+              ? 'USP <854> & ASTM E1421'
+              : instrument === 'nmr'
+              ? 'USP <761> & ISO 17025 qNMR'
+              : instrument === 'gc'
+              ? 'USP <621> · EPA 8000 / ASTM GC'
+              : 'Norma ISO/IEC 17025 & NIST 2026'}
+          </span>
         </div>
       </div>
 
@@ -144,7 +209,7 @@ export const ManufacturerShowcase: React.FC = () => {
 
         {/* Thumbnail Selector Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {INSTRUMENT_GALLERY.map((item) => {
+          {galleryList.map((item) => {
             const isSelected = selectedGalleryItem.id === item.id;
             return (
               <button
@@ -181,13 +246,23 @@ export const ManufacturerShowcase: React.FC = () => {
               Comparativa de Fabricantes: Bruker, Shimadzu y Agilent
             </h3>
             <p className="text-xs text-[#1C3947]/70">
-              Analiza en detalle cómo cada empresa resuelve los desafíos de transmisión iónica, resolución y velocidad de escaneo.
+              {instrument === 'uvvis'
+                ? 'Analiza en detalle cómo cada fabricante resuelve el rango UV profundo, la luz parásita y la velocidad de barrido óptico.'
+                : instrument === 'hplc'
+                ? 'Analiza en detalle cómo cada fabricante domina presiones de 1,300 bar, desgasificación y dispersión extra-columna.'
+                : instrument === 'ftir'
+                ? 'Analiza en detalle cómo cada fabricante estabiliza el interferómetro de Michelson, protege la óptica KBr/ZnSe y optimiza la SNR del detector.'
+                : instrument === 'nmr'
+                ? 'Analiza en detalle cómo cada fabricante estabiliza el campo superconductor B₀, enfría criosondas RF a 20 K y automatiza cuantificación qNMR.'
+                : instrument === 'gc'
+                ? 'Analiza en detalle cómo cada fabricante controla la neumática EPC/AFC a 0.001 psi, acelera rampas de horno capilar e innova en detección FID/BID/GC-MS.'
+                : 'Analiza en detalle cómo cada empresa resuelve los desafíos de transmisión iónica, resolución y velocidad de escaneo.'}
             </p>
           </div>
 
           {/* Manufacturer Tabs */}
           <div className="flex items-center gap-1.5 p-1 bg-[#FAF7EE] rounded-xl border border-[#E2D7BB] self-start sm:self-auto">
-            {LEADING_MANUFACTURERS.map((m) => {
+            {manufacturerList.map((m) => {
               const isSelected = activeManufacturerId === m.id;
               return (
                 <button
@@ -227,9 +302,43 @@ export const ManufacturerShowcase: React.FC = () => {
             <div className="p-3 bg-[#FFFDF9] rounded-xl border border-[#E2D7BB] text-xs font-mono max-w-sm">
               <span className="text-[#8E3742] font-bold">Filosofía de Diseño: </span>
               <span className="text-[#1C3947]">
-                {activeManufacturerId === 'agilent' && 'Robustez para análisis de rutina a ultra trazas con cuadrupolos de cuarzo inertes a alta temperatura.'}
-                {activeManufacturerId === 'shimadzu' && 'Velocidad sin precedentes (UFms) con barridos de 30,000 u/s y eliminación total de crosstalk en celdas de colisión.'}
-                {activeManufacturerId === 'bruker' && 'Máximo poder de resolución y precisión isotópica multidimensional mediante TIMS y FT-ICR superconductor.'}
+                {instrument === 'uvvis' ? (
+                  <>
+                    {activeManufacturerId === 'agilent' && 'Lámparas Flash de Xenón a 80 Hz sin precalentamiento e inmunidad total a la luz ambiental con arquitectura multicelda Peltier.'}
+                    {activeManufacturerId === 'shimadzu' && 'Rejillas holográficas Lo-Ray-Ligh® de luz parásita ultrabaja (<0.0005% a 220 nm) y barridos ultrarrápidos de 29,000 nm/min.'}
+                    {activeManufacturerId === 'bruker' && 'Óptica reflexiva asférica recubierta en oro/SiO₂ libre de aberración cromática con arreglos PDA termostatizados y validación NIST.'}
+                  </>
+                ) : instrument === 'hplc' ? (
+                  <>
+                    {activeManufacturerId === 'agilent' && 'Bombas InfinityLab hasta 1,300 bar con emulación ISET, doble aguja Dual-Needle y celda Max-Light de 60 mm.'}
+                    {activeManufacturerId === 'shimadzu' && 'Analytical Intelligence con FlowPilot anti-choque, desgasificador Teflon AF y detector PDA con deconvolución i-D2.'}
+                    {activeManufacturerId === 'bruker' && 'Arquitectura Elute UHPLC de volumen muerto cero con pistones de zafiro y sincronización directa HyStar para LC-DAD-MS.'}
+                  </>
+                ) : instrument === 'ftir' ? (
+                  <>
+                    {activeManufacturerId === 'agilent' && 'Interferómetro ultracompacto Cary 630 de trayectoria corta y módulos Snap-in DialPath™ resistentes a humedad con óptica ZnSe opcional.'}
+                    {activeManufacturerId === 'shimadzu' && 'Relación señal-ruido líder 60,000:1 con sensor DLATGS, deshumidificador sólido electrónico y alineación dinámica ADA a 5,000 ajustes/s.'}
+                    {activeManufacturerId === 'bruker' && 'Retroreflectores cúbicos sin desgaste RockSolid™, fuente ceramica CenterGlow™ y referencia láser He-Ne con exactitud <0.0005 cm⁻¹.'}
+                  </>
+                ) : instrument === 'nmr' ? (
+                  <>
+                    {activeManufacturerId === 'bruker' && 'Liderazgo mundial en imanes Ascend™ hasta 1.2 GHz (28.2 T), consolas Avance Neo y sondas criogénicas CryoProbe™ con SNR ×4.'}
+                    {activeManufacturerId === 'agilent' && 'Herencia Varian DirectDrive™ 2 con sintonización robótica ProTune™, sondas OneNMR™ multinucleares e imanes ultracompactos PremiumCOMPACT™.'}
+                    {activeManufacturerId === 'shimadzu' && 'Plataformas acopladas LC-SPE-NMR-MS y protocolos de Resonancia Cuantitativa (qNMR) trazable con estándares internos LabSolutions.'}
+                  </>
+                ) : instrument === 'gc' ? (
+                  <>
+                    {activeManufacturerId === 'agilent' && 'Precisión neumática EPC ±0.001 psi, placas capilares CFT para backflush, Retention Time Locking y FID digital de 7 décadas.'}
+                    {activeManufacturerId === 'shimadzu' && 'Controlador AFC con ahorro inteligente de helio (65%), conectores ClickTek™ sin herramientas y detector universal de plasma frío BID-2030.'}
+                    {activeManufacturerId === 'bruker' && 'Arquitectura SCION de rampas ultrarrápidas (120 °C/min), inyectores fríos PTV de gran volumen y acoplamiento directo sin lentes a GC-TQ.'}
+                  </>
+                ) : (
+                  <>
+                    {activeManufacturerId === 'agilent' && 'Robustez para análisis de rutina a ultra trazas con cuadrupolos de cuarzo inertes a alta temperatura.'}
+                    {activeManufacturerId === 'shimadzu' && 'Velocidad sin precedentes (UFms) con barridos de 30,000 u/s y eliminación total de crosstalk en celdas de colisión.'}
+                    {activeManufacturerId === 'bruker' && 'Máximo poder de resolución y precisión isotópica multidimensional mediante TIMS y FT-ICR superconductor.'}
+                  </>
+                )}
               </span>
             </div>
           </div>
@@ -272,6 +381,7 @@ export const ManufacturerShowcase: React.FC = () => {
             <img
               src={fullscreenImage}
               alt="Detalle en alta resolución"
+              referrerPolicy="no-referrer"
               className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl border border-white/20"
             />
             <div className="text-center text-xs text-[#FAF7EE] font-mono mt-2">

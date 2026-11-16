@@ -1,8 +1,10 @@
 import React from 'react';
 
+type AppTab = 'explorer' | 'simulator' | 'assembly' | 'puzzle' | 'real_model';
+
 interface HeaderProps {
-  activeTab: 'explorer' | 'simulator' | 'puzzle' | 'real_model';
-  onSelectTab: (tab: 'explorer' | 'simulator' | 'puzzle' | 'real_model') => void;
+  activeTab: AppTab;
+  onSelectTab: (tab: AppTab) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
@@ -18,8 +20,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
           <span>Spectroscopy</span>
         </button>
 
-        {/* Zone 2: 4 Clean Single-Line Nav Links */}
-        <nav className="hidden md:flex items-center gap-6 sm:gap-8 text-sm font-medium text-[#10242F]">
+        {/* Zone 2: 5 Clean Single-Line Nav Links */}
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-medium text-[#10242F]">
           <button
             onClick={() => onSelectTab('explorer')}
             className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
@@ -28,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
                 : 'hover:text-[#8E3742]'
             }`}
           >
-            Explorador Anatómico
+            Explorador
           </button>
           <button
             onClick={() => onSelectTab('simulator')}
@@ -38,7 +40,17 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
                 : 'hover:text-[#8E3742]'
             }`}
           >
-            Simulador de Haz
+            Simulador
+          </button>
+          <button
+            onClick={() => onSelectTab('assembly')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              activeTab === 'assembly'
+                ? 'text-[#8E3742] font-semibold border-b-2 border-[#8E3742] pb-0.5'
+                : 'hover:text-[#8E3742]'
+            }`}
+          >
+            Ensamble 3D
           </button>
           <button
             onClick={() => onSelectTab('puzzle')}
@@ -86,6 +98,12 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onSelectTab }) => {
           className={`px-2 py-1 rounded cursor-pointer ${activeTab === 'simulator' ? 'text-[#8E3742] font-bold' : ''}`}
         >
           Simulador
+        </button>
+        <button
+          onClick={() => onSelectTab('assembly')}
+          className={`px-2 py-1 rounded cursor-pointer ${activeTab === 'assembly' ? 'text-[#8E3742] font-bold' : ''}`}
+        >
+          Ensamble 3D
         </button>
         <button
           onClick={() => onSelectTab('puzzle')}
