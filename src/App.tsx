@@ -323,20 +323,45 @@ export default function App() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-[#E2D7BB]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#122630]">
-          <div className="space-y-1 text-center sm:text-left">
+        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-[#E2D7BB]/80 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs text-[#122630]">
+          <div className="space-y-2 text-center md:text-left">
             <span className="font-bold uppercase tracking-wider text-[11px] text-[#8E3742] block">
               Creadoras:
             </span>
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 font-medium text-[#122630]">
-              <span>Valery Gutierrez Blanco</span>
-              <span aria-hidden="true" className="text-[#8E3742]">·</span>
-              <span>Andrea Guanipa Delgado</span>
-              <span aria-hidden="true" className="text-[#8E3742]">·</span>
-              <span>Valerie Estrada Antequera</span>
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2">
+              <div className="flex flex-col sm:items-start items-center">
+                <span className="font-semibold text-[#122630]">Valery Gutierrez Blanco</span>
+                <a
+                  href="mailto:vjohanagutierrez@mail.uniatlantico.edu.co"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] text-[#1C3947]/80 hover:text-[#8E3742] transition-colors"
+                >
+                  vjohanagutierrez@mail.uniatlantico.edu.co
+                </a>
+              </div>
+              <div className="flex flex-col sm:items-start items-center">
+                <span className="font-semibold text-[#122630]">Andrea Guanipa Delgado</span>
+                <a
+                  href="mailto:aguanipa@mail.uniatlantico.edu.co"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] text-[#1C3947]/80 hover:text-[#8E3742] transition-colors"
+                >
+                  aguanipa@mail.uniatlantico.edu.co
+                </a>
+              </div>
+              <div className="flex flex-col sm:items-start items-center">
+                <span className="font-semibold text-[#122630]">Valerie Estrada Antequera</span>
+                <a
+                  href="mailto:vestradaa@mail.uniatlantico.edu.co"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] text-[#1C3947]/80 hover:text-[#8E3742] transition-colors"
+                >
+                  vestradaa@mail.uniatlantico.edu.co
+                </a>
+              </div>
             </div>
           </div>
-          <div className="text-center sm:text-right font-semibold text-[#1C3947]">
+          <div className="text-center md:text-right font-semibold text-[#1C3947] shrink-0">
             Universidad del Atlantico
           </div>
         </div>
