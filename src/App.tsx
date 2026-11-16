@@ -322,6 +322,24 @@ export default function App() {
             Paleta: Vanilla Cream · Blush Petal · Rosewood · Sage Leaf · Misty Sky · Midnight Lagoon
           </div>
         </div>
+
+        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-[#E2D7BB]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#122630]">
+          <div className="space-y-1 text-center sm:text-left">
+            <span className="font-bold uppercase tracking-wider text-[11px] text-[#8E3742] block">
+              Creadoras:
+            </span>
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 font-medium text-[#122630]">
+              <span>Valery Gutierrez Blanco</span>
+              <span aria-hidden="true" className="text-[#8E3742]">·</span>
+              <span>Andrea Guanipa Delgado</span>
+              <span aria-hidden="true" className="text-[#8E3742]">·</span>
+              <span>Valerie Estrada Antequera</span>
+            </div>
+          </div>
+          <div className="text-center sm:text-right font-semibold text-[#1C3947]">
+            Universidad del Atlantico
+          </div>
+        </div>
       </footer>
     </div>
   );
